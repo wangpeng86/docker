@@ -44,3 +44,4 @@ sql_mode=STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_
 default-time_zone = '+8:00'
 #表名不区分大小写
 lower_case_table_names=1
+group_concat_max_len = 102400
