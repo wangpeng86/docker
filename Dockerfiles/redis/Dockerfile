@@ -6,3 +6,5 @@ ADD redis.conf /etc/redis/
 
 RUN cp /usr/share/zoneinfo/Asia/Shanghai /etc/localtime \
 &&echo 'Asia/Shanghai' > /etc/timezone
+
+ENTRYPOINT ["redis-server", "/etc/redis/redis.conf"]

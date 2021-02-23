@@ -1,0 +1,67 @@
+version: '2'
+services:
+  web:
+    image: nginx:v2
+    ports:
+      - 9028:80
+    container_name: nginx_test_3
+    depends_on:
+      - server1
+    networks:
+      - front
+    volumes:
+      - /home/sfeuser01/dockerInfo/nginx_test_3/webdir:/data/webdir
+  server1:
+    image: tomcat:v2
+    ports:
+      - 9026:8080
+    container_name: tomcat_ctrans_test_3
+    depends_on:
+      - db
+      - redis
+    networks:
+      front:
+        aliases:
+          - ctrans
+      back:
+        aliases:
+          - ctrans
+    volumes:
+      - /home/sfeuser01/dockerInfo/tomcat_ctrans_test_3/webapps:/usr/local/tomcat/webapps
+  server2:
+    image: tomcat:v2
+    ports:
+      - 9021:8080
+    container_name: tomcat_imms_test_3
+    depends_on:
+      - db
+      - redis
+    networks:
+      back:
+        aliases:
+          - imms
+    volumes:
+      - /home/sfeuser01/dockerInfo/tomcat_imms_test_3/webapps:/usr/local/tomcat/webapps
+  db:
+    image: mysql:v2
+    ports:
+      - 9010:3306
+    container_name: mysql_test_3
+    restart: always
+    networks:
+      back:
+        aliases:
+          - mysql
+  redis:
+    image: redis:v2
+    ports:
+      - 9011:6379
+    container_name: redis_test_3
+    restart: always
+    networks:
+      - back
+networks:
+  front:
+    driver: bridge
+  back:
+    driver: bridge

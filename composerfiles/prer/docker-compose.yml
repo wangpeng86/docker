@@ -1,0 +1,51 @@
+version: '2'
+services:
+  server1:
+    image: tomcat:v2
+    ports:
+      - 9022:8080
+    container_name: tomcat_ctrans_prer
+    depends_on:
+      - db
+      - redis
+    networks:
+      back:
+        aliases:
+          - zbsale
+    volumes:
+      - /home/sfeuser01/dockerInfo/tomcat_ctrans_prer/webapps:/usr/local/tomcat/webapps
+  server2:
+    image: tomcat:v2
+    ports:
+      - 9024:8080
+    container_name: tomcat_imms_prer
+    depends_on:
+      - db
+      - redis
+    networks:
+      back:
+        aliases:
+          - imms
+    volumes:
+      - /home/sfeuser01/dockerInfo/tomcat_imms_prer/webapps:/usr/local/tomcat/webapps
+  db:
+    image: mysql:v2
+    ports:
+      - 9004:3306
+    container_name: mysql_prer
+    restart: always
+    networks:
+      back:
+        aliases:
+          - mysql
+  redis:
+    image: redis:v2
+    ports:
+      - 9005:6379
+    container_name: redis_prer
+    restart: always
+    networks:
+      - back
+networks:
+  back:
+    driver: bridge
